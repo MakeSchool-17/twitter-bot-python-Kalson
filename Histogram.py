@@ -1,11 +1,12 @@
 import re
+import random
 
-source_text = open('fish.txt').read().split()
+source_text = open('book.txt').read().split()
 
 histogram = {}  # create dict
 
 
-def histogram_fun(source_text):
+def histogram_fun(source_text):  # create histogram to count freq in text
     for word in source_text:
         if word not in histogram:
             new_word = re.sub(r"\W+", "", word)
@@ -17,19 +18,27 @@ def histogram_fun(source_text):
             new_word = new_word.lstrip('_')
             new_word = new_word.rstrip('_')
             histogram[new_word] += 1
-    # tokens = sum(histo.values())
     return histogram
 
 
-def cumulative_distribution(histogram):
+def cumulative_distribution(histogram):  # create tuple list from cum_dist
     distribution_list = []
     distribution_range = 0
-    for x, freq in histogram.items():
-        if x not in distribution_list:
+    for distribution_word, freq in histogram.items():
+        if distribution_word not in distribution_list:
             upper_limit = distribution_range + freq
             distribution_range += freq
-            distribution_list.append((x, upper_limit))
+            distribution_list.append((distribution_word, upper_limit))
     return distribution_list
+
+
+def sample_from_cum(distribution_list):  # pull words from cumalative list
+    token_tuple = distribution_list[-1]
+    tokens = token_tuple[-1]
+    for sample_word, upper_limit in distribution_list:
+        index = random.randint(0, tokens - 1)
+        if index < upper_limit:
+            return sample_word
 
 
 def unique_words(histogram_fun):  # returns the total # of uinque words in data
@@ -41,4 +50,5 @@ def frequency(word, histogram_fun):  # returns frequency of word in source text
 
 
 if __name__ == '__main__':
-    print(cumulative_distribution(histogram_fun(source_text)))
+    x = cumulative_distribution(histogram_fun(source_text))
+    print(sample_from_cum(x))
