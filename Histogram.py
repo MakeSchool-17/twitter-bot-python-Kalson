@@ -3,7 +3,7 @@ import random
 
 source_text = open('book.txt').read().split()
 
-histogram = {}  # create dict
+histogram = {}  # create dict for histogram
 
 
 def histogram_fun(source_text):  # create histogram to count freq in text
@@ -35,11 +35,17 @@ def cumulative_distribution(histogram):  # create tuple list from cum_dist
 def sample_from_cum(distribution_list):  # pull words from cumalative list
     token_tuple = distribution_list[-1]
     tokens = token_tuple[-1]
+    index = random.randint(0, tokens - 1)  # the index is set here for true randomness
     for sample_word, upper_limit in distribution_list:
-        index = random.randint(0, tokens - 1)
         if index < upper_limit:
-            return sample_word
+            return sample_word  #run this a 1000 times, put the output into a
+            # new list and run this into the same histogram and compare it
 
+
+# def true_randomness(tokens):
+#     sentence_list = []
+#     for random_words in sentence_list:
+#
 
 def unique_words(histogram_fun):  # returns the total # of uinque words in data
     return len(histogram)
